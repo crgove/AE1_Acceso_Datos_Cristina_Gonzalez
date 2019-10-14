@@ -11,10 +11,16 @@ namespace WebProyectoApi.Controllers
     public class MercadosController : ApiController
     {
         // GET: api/Mercados
-        public IEnumerable<Mercado> Get()
+        /*public IEnumerable<Mercado> Get()
         {
             var repo = new MercadosRepository();
             return repo.Retrieve();
+        }*/
+
+        public IEnumerable<MercadoDTO> Get()
+        {
+            var repo = new MercadosRepository();
+            return repo.RetrieveDTO();
         }
 
         // GET: api/Mercados/5
@@ -31,6 +37,7 @@ namespace WebProyectoApi.Controllers
         // PUT: api/Mercados/5
         public void Put(int id, [FromBody]string value)
         {
+
         }
 
         // DELETE: api/Mercados/5

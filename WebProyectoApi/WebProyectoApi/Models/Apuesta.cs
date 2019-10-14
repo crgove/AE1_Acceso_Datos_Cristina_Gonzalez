@@ -7,10 +7,10 @@ namespace WebProyectoApi.Models
 {
     public class Apuesta
     {
-        public Apuesta(int id, string tipo, double cuota, double dinero, int idMercado, string emailUsuario)
+        public Apuesta(int id, bool esUnder, double cuota, double dinero, int idMercado, string emailUsuario)
         {
             Id = id;
-            Tipo = tipo;
+            EsUnder = esUnder;
             Cuota = cuota;
             Dinero = dinero;
             IdMercado = idMercado;
@@ -18,11 +18,30 @@ namespace WebProyectoApi.Models
         }
 
         public int Id {get; set; }
-        public string Tipo { get; set; }
+        public bool EsUnder { get; set; }
         public double Cuota { get; set; }
         public double Dinero { get; set; }
         public int IdMercado { get; set; } 
         public string EmailUsuario { get; set; }
+
+    }
+
+    public class ApuestaDTO
+    {
+        public ApuestaDTO(bool esUnder, double cuota, double dinero, string emailUsuario, double tipoMercado)
+        {
+            EsUnder = esUnder;
+            Cuota = cuota;
+            Dinero = dinero;
+            EmailUsuario = emailUsuario;
+            TipoMercado = tipoMercado;
+        }
+
+        public bool EsUnder { get; set; }
+        public double Cuota { get; set; }
+        public double Dinero { get; set; }
+        public string EmailUsuario { get; set; }
+        public double TipoMercado { get; set; }
 
     }
 }

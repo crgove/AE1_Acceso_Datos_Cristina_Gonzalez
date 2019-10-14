@@ -11,10 +11,17 @@ namespace WebProyectoApi.Controllers
     public class EventosController : ApiController
     {
         // GET: api/Eventos
-        public IEnumerable<Evento> Get()
+        /*public IEnumerable<Evento> Get()
         {
             var repo = new EventosRepository();
             return repo.Retrieve();
+        }
+
+        */
+        public IEnumerable<EventoDTO> Get()  
+        {
+            var repo = new EventosRepository();
+            return repo.RetrieveDTO();
         }
 
         // GET: api/Eventos/5

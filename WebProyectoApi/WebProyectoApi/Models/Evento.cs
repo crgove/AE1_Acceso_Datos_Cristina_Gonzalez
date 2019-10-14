@@ -22,4 +22,16 @@ namespace WebProyectoApi.Models
         public DateTime InicioPartido { get; set; }
         public DateTime FinalPartido { get; set; }
     }
+
+    public class EventoDTO
+    {
+        public EventoDTO(string equipoLocal, string equipoVisitante)
+        {
+            EquipoLocal = equipoLocal;
+            EquipoVisitante = equipoVisitante;
+        }
+        public string EquipoLocal { get; set; }
+        public string EquipoVisitante { get; set; }
+        
+    }
 }
