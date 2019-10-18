@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -33,11 +34,13 @@ namespace WebProyectoApi.Controllers
         // POST: api/Apuestas
         public void Post([FromBody]Apuesta apuesta)
         {
-            var repo = new ApuestasRepository();
-            repo.Save(apuesta);
+            Debug.WriteLine("Apuesta vale" + apuesta);
+            var repoApuestas = new ApuestasRepository(); 
+            repoApuestas.Save(apuesta); //Insertamos la apuesta en la BBDD
 
-            
-
+            var repoMercados = new MercadosRepository();
+            repoApuestas.ModificarDineroEsUnderMercado(apuesta);
+            repoMercados.ActualizarMercado(apuesta); //Actualizamos el mercado a través de la apuesta insertada
         }
 
         // PUT: api/Apuestas/5

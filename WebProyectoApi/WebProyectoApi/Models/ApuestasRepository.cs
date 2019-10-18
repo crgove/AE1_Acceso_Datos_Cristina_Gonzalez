@@ -75,7 +75,7 @@ namespace WebProyectoApi.Models
             }
         }
 
-        internal void Save(Apuesta a)
+        internal void Save(Apuesta a) //Función creada para insertar una nueva apuesta
         {
             CultureInfo cullnfo = new System.Globalization.CultureInfo("es-ES");
             cullnfo.NumberFormat.NumberDecimalSeparator = ".";
@@ -87,7 +87,7 @@ namespace WebProyectoApi.Models
             MySqlConnection con = Connect();
             MySqlCommand command = con.CreateCommand();
 
-            command.CommandText = "insert into apuesta(es_under, cuota, dinero, id_mercado, email_usuario) values ('" + a.EsUnder + "','" + a.Cuota + "','" + a.Dinero + "','" + a.IdMercado + "','" + a.EmailUsuario + "');";
+            command.CommandText = "insert into apuesta(es_under, cuota, dinero, id_mercado, email_usuario) values (" + a.EsUnder + ",'" + a.Cuota + "','" + a.Dinero + "','" + a.IdMercado + "','" + a.EmailUsuario + "');";
             Debug.WriteLine("comando " +command.CommandText);
 
             try
@@ -96,12 +96,126 @@ namespace WebProyectoApi.Models
                 command.ExecuteNonQuery();
                 con.Close();
             }
-            catch (MySqlException a)
+            catch (MySqlException e) 
             {
                 Debug.WriteLine("No se ha podido realizar la conexión a la BBDD");
             }
         }
 
-        
+        internal void ModificarDineroEsUnderMercado(Apuesta apuesta) //Función creada con el objetivo de modificar el dinero(under o over) del mercado una vez se inserta una apuesta 
+        {
+            MySqlConnection con = Connect();
+            MySqlCommand command = con.CreateCommand();
+
+            if (apuesta.EsUnder)
+            {
+                var dineroApostadoUnder = SeleccionarDineroApuestaUnder(apuesta) + apuesta.Dinero;
+                //command.CommandText = "update mercado set dinero_apostado_under=" + dineroApostadoUnder + " where id_mercado=" + apuesta.IdMercado + ";";
+                command.CommandText = "update mercado set dinero_apostado_under=@dinero_apostado_under where id_mercado=@id_mercado";
+                command.Parameters.AddWithValue("@dinero_apostado_under", dineroApostadoUnder);
+                command.Parameters.AddWithValue("@id_mercado", apuesta.IdMercado);
+
+                try
+                {
+                    con.Open();
+                    command.ExecuteNonQuery();
+                    con.Close();
+                }
+                catch (MySqlException e)
+                {
+                    Debug.WriteLine("5: No se ha podido realizar la conexión a la BBDD "+e.Message);
+                }
+
+            } else
+            {
+                var dineroApostadoOver = SeleccionarDineroApuestaOver(apuesta) + apuesta.Dinero;
+                //command.CommandText = "update mercado set dinero_apostado_over=" + dineroApostadoOver + " where id_mercado=" + apuesta.IdMercado + ";";
+                command.CommandText = "update mercado set dinero_apostado_over=@dinero_apostado_over where id_mercado=@id_mercado";
+                command.Parameters.AddWithValue("@dinero_apostado_over", dineroApostadoOver);
+                command.Parameters.AddWithValue("@id_mercado", apuesta.IdMercado);
+
+                try
+                {
+                    con.Open();
+                    command.ExecuteNonQuery();
+                    con.Close();
+                }
+                catch (MySqlException e)
+                {
+                    Debug.WriteLine("No se ha podido realizar la conexión a la BBDD");
+                }
+            }
+        }
+
+        internal double SeleccionarDineroApuestaUnder(Apuesta apuesta)
+        {
+
+            MySqlConnection con = Connect();
+            MySqlCommand command = con.CreateCommand();
+
+            //command.CommandText = "select dinero_apostado_under from mercado where id_mercado= " + apuesta.IdMercado + ";";
+            command.CommandText = "select dinero_apostado_under from mercado where id_mercado=@id_mercado";
+            command.Parameters.AddWithValue("@id_mercado", apuesta.IdMercado);
+
+            try
+            {
+                con.Open();
+                MySqlDataReader res = command.ExecuteReader();
+
+                var dineroApostadoUnder = 0.0;
+
+                while (res.Read())
+                {
+                    dineroApostadoUnder = res.GetDouble(0);
+
+                }
+
+                con.Close();
+                return dineroApostadoUnder;
+
+            }
+            catch (MySqlException m)
+            {
+                Debug.WriteLine("No se ha podido realizar la conexión a la BBDD");
+                return 0.0;
+            }
+
+        }
+
+        internal double SeleccionarDineroApuestaOver(Apuesta apuesta)
+        {
+            MySqlConnection con = Connect();
+            MySqlCommand command = con.CreateCommand();
+
+            //var idMercado = apuesta.IdMercado;
+
+            //command.CommandText = "select dinero_apostado_over from mercado where id_mercado= " + apuesta.IdMercado + ";";
+            command.CommandText = "select dinero_apostado_over from mercado where id_mercado=@id_mercado";
+            command.Parameters.AddWithValue("@id_mercado", apuesta.IdMercado);
+
+            try
+            {
+                con.Open();
+                MySqlDataReader res = command.ExecuteReader();
+
+                var dineroApostadoOver = 0.0;
+
+                while (res.Read())
+                {
+                    dineroApostadoOver = res.GetDouble(0);
+
+                }
+
+                con.Close();
+                return dineroApostadoOver;
+
+            }
+            catch (MySqlException m)
+            {
+                Debug.WriteLine("No se ha podido realizar la conexión a la BBDD");
+                return 0.0;
+            }
+        }
+
     }
 }
