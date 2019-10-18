@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 27-09-2019 a las 20:10:54
+-- Tiempo de generación: 18-10-2019 a las 17:29:57
 -- Versión del servidor: 5.7.26
 -- Versión de PHP: 7.2.18
 
@@ -31,7 +31,7 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `apuesta`;
 CREATE TABLE IF NOT EXISTS `apuesta` (
   `ID_APUESTA` int(11) NOT NULL AUTO_INCREMENT,
-  `TIPO_APUESTA` varchar(100) NOT NULL,
+  `ES_UNDER` tinyint(1) NOT NULL,
   `CUOTA` double NOT NULL,
   `DINERO` double NOT NULL,
   `ID_MERCADO` int(11) NOT NULL,
@@ -39,15 +39,15 @@ CREATE TABLE IF NOT EXISTS `apuesta` (
   PRIMARY KEY (`ID_APUESTA`),
   KEY `ID_MERCADO` (`ID_MERCADO`),
   KEY `EMAIL_USUARIO` (`EMAIL_USUARIO`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `apuesta`
 --
 
-INSERT INTO `apuesta` (`ID_APUESTA`, `TIPO_APUESTA`, `CUOTA`, `DINERO`, `ID_MERCADO`, `EMAIL_USUARIO`) VALUES
-(1, '1.5 OVER', 1.43, 50, 1, 'ARANTXA000@GMAIL.COM'),
-(2, '2.5 UNDER', 1.9, 100, 1, 'MARCOSGOMEZ@GMAIL.COM');
+INSERT INTO `apuesta` (`ID_APUESTA`, `ES_UNDER`, `CUOTA`, `DINERO`, `ID_MERCADO`, `EMAIL_USUARIO`) VALUES
+(76, 1, 1.6, 250, 1, 'ARANTXA000@GMAIL.COM'),
+(77, 0, 4.275, 75, 1, 'ARANTXA000@GMAIL.COM');
 
 -- --------------------------------------------------------
 
@@ -87,14 +87,15 @@ CREATE TABLE IF NOT EXISTS `evento` (
   `INICIO_PARTIDO` datetime NOT NULL,
   `FIN_PARTIDO` datetime NOT NULL,
   PRIMARY KEY (`ID_EVENTO`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `evento`
 --
 
 INSERT INTO `evento` (`ID_EVENTO`, `NOMBRE_EQUIPO_LOCAL`, `NOMBRE_EQUIPO_VISITANTE`, `INICIO_PARTIDO`, `FIN_PARTIDO`) VALUES
-(1, 'VALENCIA CF', 'OSASUNA', '2019-06-25 20:00:00', '2019-06-25 21:30:00');
+(1, 'VALENCIA CF', 'OSASUNA', '2019-06-25 20:00:00', '2019-06-25 21:30:00'),
+(2, 'Barcelona', 'Valladolid', '2019-09-01 13:00:00', '2019-09-01 14:00:00');
 
 -- --------------------------------------------------------
 
@@ -105,7 +106,7 @@ INSERT INTO `evento` (`ID_EVENTO`, `NOMBRE_EQUIPO_LOCAL`, `NOMBRE_EQUIPO_VISITAN
 DROP TABLE IF EXISTS `mercado`;
 CREATE TABLE IF NOT EXISTS `mercado` (
   `ID_MERCADO` int(11) NOT NULL AUTO_INCREMENT,
-  `TIPO` varchar(100) NOT NULL,
+  `TIPO` double NOT NULL,
   `CUOTA_OVER` double NOT NULL,
   `CUOTA_UNDER` double NOT NULL,
   `DINERO_APOSTADO_OVER` double NOT NULL,
@@ -113,16 +114,16 @@ CREATE TABLE IF NOT EXISTS `mercado` (
   `ID_EVENTO` int(11) NOT NULL,
   PRIMARY KEY (`ID_MERCADO`),
   KEY `ID_EVENTO` (`ID_EVENTO`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `mercado`
 --
 
 INSERT INTO `mercado` (`ID_MERCADO`, `TIPO`, `CUOTA_OVER`, `CUOTA_UNDER`, `DINERO_APOSTADO_OVER`, `DINERO_APOSTADO_UNDER`, `ID_EVENTO`) VALUES
-(1, '1.5 OVER/UNDER', 1.43, 2.85, 100, 50, 1),
-(2, '2.5 OVER/UNDER', 1.9, 1.9, 100, 100, 1),
-(3, '3.5 OVER/UNDER', 2.85, 1.43, 50, 100, 1);
+(1, 1.5, 2.8499999999999996, 1.4249999999999998, 175, 350, 1),
+(2, 2.5, 1.5, 1.2, 100, 100, 1),
+(9, 3.5, 1.5, 1.5, 100, 100, 1);
 
 -- --------------------------------------------------------
 
