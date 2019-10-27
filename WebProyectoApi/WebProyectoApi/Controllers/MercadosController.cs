@@ -24,9 +24,17 @@ namespace WebProyectoApi.Controllers
         }
 
         // GET: api/Mercados/5
-        public string Get(int id)
+        /*public string Get(int id)
         {
             return null;
+        }*/
+
+         //DEVUELVE LOS MERCADOS DE UN EVENTO EN CONCRETO
+        // GET: api/Mercados?EventoId=id
+        public IEnumerable<MercadoDTO> GetByIdEvento(int EventoId)
+        {
+            var repo = new MercadosRepository(); 
+            return repo.RetrieveById(EventoId);  
         }
 
         // POST: api/Mercados

@@ -44,4 +44,22 @@ namespace WebProyectoApi.Models
         public double TipoMercado { get; set; }
 
     }
+
+    public class ApuestaUsuario
+    {
+        public ApuestaUsuario(bool esUnder, double cuota, double dinero, double tipoMercado, int idEvento)
+        {
+            EsUnder = esUnder;
+            Cuota = cuota;
+            Dinero = dinero;
+            TipoMercado = tipoMercado;
+            IdEvento = idEvento;
+        }
+
+        public bool EsUnder { get; set; }
+        public double Cuota { get; set; }
+        public double Dinero { get; set; }
+        public double TipoMercado { get; set; }
+        public int IdEvento { get; set; }
+    }
 }

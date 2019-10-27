@@ -42,6 +42,43 @@ namespace WebProyectoApi.Models
             }
         }
 
+
+        internal IEnumerable<MercadoDTO> RetrieveById(int idEvento) 
+        {
+
+            MySqlConnection con = Connect();
+            MySqlCommand command = con.CreateCommand();
+            command.CommandText = "select TIPO, CUOTA_OVER, CUOTA_UNDER from mercado where id_evento=@id_evento";
+            command.Parameters.AddWithValue("@id_evento", idEvento);
+
+            try
+            {
+                con.Open();
+                MySqlDataReader res = command.ExecuteReader();
+
+                MercadoDTO m = null;
+                List<MercadoDTO> mercados = new List<MercadoDTO>();
+
+                while (res.Read())
+                {
+                    Debug.WriteLine("Recuperado: " + res.GetDouble(0) + " " + res.GetDouble(1) + " " + res.GetDouble(2));
+                    m = new MercadoDTO(res.GetDouble(0), res.GetDouble(1), res.GetDouble(2)); 
+                    mercados.Add(m);
+                }
+
+                con.Close();
+                return mercados;
+
+            }
+            catch (MySqlException m)
+            {
+                Debug.WriteLine("2: No se ha podido realizar la conexión a la BBDD " + m.Message);
+                return null;
+            }
+
+        }
+
+
         internal IEnumerable<MercadoDTO> RetrieveDTO()
         {
             MySqlConnection con = Connect();
@@ -74,7 +111,10 @@ namespace WebProyectoApi.Models
             }
 
         }
-
+        /// <summary>
+        /// Actualizamos el mercado 
+        /// </summary>
+        /// <param name="apuesta">Apuesta de usuario</param>
         public void ActualizarMercado(Apuesta apuesta) //Función creada para actualizar las cuotas del mercado
         {
             MySqlConnection con = Connect();
