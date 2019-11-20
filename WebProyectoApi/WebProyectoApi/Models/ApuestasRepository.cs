@@ -11,7 +11,42 @@ namespace WebProyectoApi.Models
 {
     public class ApuestasRepository : MySqlRepository
     {
+        //PREGUNTA 2 EXAMEN 
+        internal IEnumerable<ApuestaDTO> RetrieveByCuota(double cuota, double cuotaMaxima)
+        {
+            MySqlConnection con = Connect();
+            MySqlCommand command = con.CreateCommand();
+            command.CommandText = "SELECT * FROM apuesta WHERE cuota > @A AND cuota < @A2";
 
+            command.Parameters.AddWithValue("@A", cuota);
+            command.Parameters.AddWithValue("@A2", cuotaMaxima);
+
+            try
+            {
+                con.Open();
+                MySqlDataReader res = command.ExecuteReader();
+
+                ApuestaDTO a = null;
+                List<ApuestaDTO> apuestas = new List<ApuestaDTO>();
+
+                while (res.Read())
+                {
+                    Debug.WriteLine("Recuperado: " + res.GetBoolean(0) + " " + res.GetDouble(1) + " " + res.GetDouble(2) + " " + res.GetString(3) + " " + res.GetDouble(4));
+                    a = new ApuestaDTO(res.GetBoolean(0), res.GetDouble(1), res.GetDouble(2), res.GetString(3), res.GetDouble(4));
+                    apuestas.Add(a);
+                }
+
+                con.Close();
+                return apuestas;
+
+            }
+            catch (MySqlException m)
+            {
+                Debug.WriteLine("No se ha podido realizar la conexión a la BBDD");
+                return null;
+            }
+
+        }
         /// <summary>
         /// Devuelve todas las apuestas de la base de datos
         /// </summary>

@@ -44,6 +44,15 @@ namespace WebProyectoApi.Controllers
             
         }
 
+        //PREGUNTA 2 EXAMEN
+        // GET: api/Apuestas?cuota=minim&cuotaMaxima=maxim
+        public IEnumerable<ApuestaDTO> GetByCuota(double cuota, double cuotaMaxima)
+        {
+            var repo = new ApuestasRepository();
+            return repo.RetrieveByCuota(cuota, cuotaMaxima);
+
+        }
+
         [Authorize]    //Restringimos realizar apuestas solo para usuarios que se han logueado y autenticado!
         // POST: api/Apuestas
         public void Post([FromBody]Apuesta apuesta) 

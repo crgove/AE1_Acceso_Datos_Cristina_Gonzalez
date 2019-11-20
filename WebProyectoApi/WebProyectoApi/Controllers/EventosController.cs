@@ -31,8 +31,13 @@ namespace WebProyectoApi.Controllers
         }
 
         // POST: api/Eventos
-        public void Post([FromBody]string value)
+        public void Post([FromBody]EventoExamen evento)
         {
+            //Debug.WriteLine("Apuesta vale" + apuesta);
+            var repoEventos = new EventosRepository();
+            repoEventos.Save(evento); //Insertamos la apuesta en la BBDD
+
+            
         }
 
         // PUT: api/Eventos/5
