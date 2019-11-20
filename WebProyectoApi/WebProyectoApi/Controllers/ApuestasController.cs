@@ -19,6 +19,7 @@ namespace WebProyectoApi.Controllers
             return repo.Retrieve();
         }*/
 
+
         public IEnumerable<ApuestaDTO> Get()
         {
             var repo = new ApuestasRepository();
@@ -45,7 +46,7 @@ namespace WebProyectoApi.Controllers
 
         [Authorize]    //Restringimos realizar apuestas solo para usuarios que se han logueado y autenticado!
         // POST: api/Apuestas
-        public void Post([FromBody]Apuesta apuesta)
+        public void Post([FromBody]Apuesta apuesta) 
         {
             //Debug.WriteLine("Apuesta vale" + apuesta);
             var repoApuestas = new ApuestasRepository(); 
@@ -54,6 +55,7 @@ namespace WebProyectoApi.Controllers
             var repoMercados = new MercadosRepository(); 
             repoApuestas.ModificarDineroEsUnderMercado(apuesta); //Llamamos a la función que modifica el dinero(under o over) del mercado una vez se inserta una apuesta
             repoMercados.ActualizarMercado(apuesta); //Actualizamos el Mercado a través de la apuesta insertada
+            //return repoApuestas.RetrieveByEmail(apuesta.EmailUsuario); //DEVOLVEMOS LAS APUESTAS DE UN USUARIO 
         }
 
         // PUT: api/Apuestas/5

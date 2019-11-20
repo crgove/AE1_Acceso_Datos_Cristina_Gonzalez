@@ -11,6 +11,7 @@ namespace WebProyectoApi.Models
 {
     public class ApuestasRepository : MySqlRepository
     {
+
         /// <summary>
         /// Devuelve todas las apuestas de la base de datos
         /// </summary>

@@ -62,4 +62,8 @@ namespace WebProyectoApi.Models
         public double TipoMercado { get; set; }
         public int IdEvento { get; set; }
     }
+
+    
+
+
 }
