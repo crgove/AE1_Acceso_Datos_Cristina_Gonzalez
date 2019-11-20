@@ -30,13 +30,21 @@ namespace WebProyectoApi.Controllers
             return null;
         }
 
+        //PREGUNTA 3 EXAMEN
         // POST: api/Eventos
-        public void Post([FromBody]EventoExamen evento)
+        public void Post([FromBody]Evento evento)
         {
             //Debug.WriteLine("Apuesta vale" + apuesta);
             var repoEventos = new EventosRepository();
-            repoEventos.Save(evento); //Insertamos la apuesta en la BBDD
+            repoEventos.Save(evento); //Insertamos EL EVENTO en la BBDD
 
+            //RECUPERAMOS EL MERCADO DEL EVENTO ESPECIFICO
+            var repoMercados = new MercadosRepository();
+            repoMercados.RetrieveById(evento.Id);
+            
+
+            //ME FALTA MUCHOOOO
+            
             
         }
 

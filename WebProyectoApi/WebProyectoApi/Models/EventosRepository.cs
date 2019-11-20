@@ -12,7 +12,7 @@ namespace WebProyectoApi.Models
     {
 
         //ACTIVIDAD 3 EXAMEN
-        internal void Save(EventoExamen e) //Función creada para insertar una nueva apuesta
+        internal void Save(Evento e) //Función creada para insertar un nuevo evento
         {
             CultureInfo cullnfo = new System.Globalization.CultureInfo("es-ES");
             cullnfo.NumberFormat.NumberDecimalSeparator = ".";
@@ -24,7 +24,8 @@ namespace WebProyectoApi.Models
             MySqlConnection con = Connect();
             MySqlCommand command = con.CreateCommand();
 
-            command.CommandText = "insert into evento(local, visitante, dinero) values (" + e.EquipoLocal + ",'" + e.EquipoVisitante + "','" + e.Dinero + "');";
+            command.CommandText = 
+            command.CommandText = "insert into evento(local, visitante) values (" + e.EquipoLocal + ",'" + e.EquipoVisitante + "');";
             Debug.WriteLine("comando " + command.CommandText);
 
             try
@@ -38,6 +39,39 @@ namespace WebProyectoApi.Models
                 Debug.WriteLine("No se ha podido realizar la conexión a la BBDD " + e.Message);
             }
         }
+        //PREGUNTA 3 EXAMEN  Recuperamos el id del evento
+        internal IEnumerable<Evento> RetrieveEvento(int id)
+        {
+            MySqlConnection con = Connect();
+            MySqlCommand command = con.CreateCommand();
+            command.CommandText = "select * from evento where id=@id";
+
+            try
+            {
+                con.Open();
+                MySqlDataReader res = command.ExecuteReader();
+
+                Evento e = null;
+                List<Evento> eventos = new List<Evento>();
+
+                while (res.Read())
+                {
+                    Debug.WriteLine("Recuperado: " + res.GetInt32(0) + " " + res.GetString(1) + " " + res.GetString(2) + " " + res.GetDateTime(3) + " " + res.GetDateTime(4));
+                    e = new Evento(res.GetInt32(0), res.GetString(1), res.GetString(2), res.GetDateTime(3), res.GetDateTime(4));
+                    eventos.Add(e);
+                }
+
+                con.Close();
+                return eventos;
+
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine("No se ha podido realizar la conexión a la BBDD");
+                return null;
+            }
+        }
+
 
         internal IEnumerable<Evento> Retrieve()
         {

@@ -35,22 +35,4 @@ namespace WebProyectoApi.Models
         
     }
 
-    //PREGUNTA 3 EXAMEN
-    public class EventoExamen
-    {
-        public EventoExamen(int id, string equipoLocal, string equipoVisitante, double dinero)
-        {
-            Id = id;
-            EquipoLocal = equipoLocal;
-            EquipoVisitante = equipoVisitante;
-            Dinero = dinero;
-        }
-
-        public int Id { get; set; }
-        public string EquipoLocal { get; set; }
-        public string EquipoVisitante { get; set; }
-
-        public double Dinero { get; set; }
-
-    }
 }
